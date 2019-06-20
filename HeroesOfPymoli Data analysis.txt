@@ -1,0 +1,7 @@
+Observable data trends from the Heroes of Pymoli Item Purchase data
+
+We can see that a large portion of the games purchases are made by males, consisting of 84% of all purchases. This trend may or may not line up with the average player base but without a broader list of player data we can't really tell. If we had a broader dataset of total players then we could accurately see if male or female players are more likely to purchase items. It could turn out that women only make up 5% of the total player base but make 14% of all purchases
+
+What we do see though is that women and other players spend more money on average. Meaning that they will purchase fewer items but items that have a higher value. Again if the data set had the items purchased broken down by item type, whether they be cosmetic or in game currency then we could get a pretty clear image of what was driving each gender demographic to make the decision to spend real world currency.
+
+We can clearly see that the age ranges of 15-29 are by far the most willing to spend cash on the game with those three age groups accounting for a majority of all purchases. Meaning that even though these are the largest sections of players they are still outspending their peers by a wide margin. 
