@@ -1,0 +1,151 @@
+# Dependencies and Setup
+import pandas as pd
+import numpy as np
+
+# File to Load (Remember to Change These)
+file_to_load = "Resources/purchase_data.csv"
+
+# Read Purchasing File and store into Pandas data frame
+purchase_data = pd.read_csv(file_to_load)
+df = purchase_data
+
+df.head()
+
+# Get a count of the total data set
+df.count()
+
+# Check the data types of each column
+df.info()
+
+# Count the unique Screen names
+df_sn = df['SN'].nunique()
+df_sn
+
+# Count the unique items
+df1 = df['Item ID'].nunique()
+df1
+
+# Find the average amount spent
+df_avg = df['Price'].mean()
+
+# Find the total revenue made
+df_rev = df['Price'].sum()
+df_rev
+
+# Find the total number of items purchased
+df_pur = df['Price'].count()
+
+# Make a new data set to hold the info
+dft = {'Unique Players': [df_sn], 'Unique Items': [df1], 'Average Purchase Price': [df_avg], 'Total Purchases': [df_pur], 'Total Revenue': [df_rev]}
+
+# set the data as a data frame and then convert the values with decimals into dolars
+df2 = pd.DataFrame(data=dft)
+pd.options.display.float_format = '${:,.2f}'.format
+
+
+
+df_id = df.sort_values("SN")
+
+df_id.head()
+
+df_id = df_id.drop_duplicates('SN')
+
+df_id.count()
+
+df_gender = df_id['Gender'].value_counts()
+
+df_gender
+
+df_genderpct = (df_gender/576)*100
+pd.options.display.float_format = '{:,.2f}%'.format
+df_genderpct
+
+df_gentot= pd.DataFrame({"Count" : df_gender, "Percent" : df_genderpct})
+
+df_gentot
+
+mfpurchase = df.groupby('Gender')['Item ID']
+
+mfpurchase = mfpurchase.count()
+
+mfavg = df.groupby('Gender')['Price'].mean()
+pd.options.display.float_format = '${:,.2f}'.format
+
+mfavg.round(2)
+
+mftotal = df.groupby('Gender')['Price'].sum()
+
+mftotal.round(2)
+
+
+
+mfdata = pd.DataFrame({"Items Purchased": mfpurchase, 'Average Spent': mfavg, 'Total Spent': mftotal})
+
+mfdata
+
+bins = [0,9,14,19,24,29,34,39,45]
+
+group_names = ['Under 10', "10-14", '15-19', '20-24', '25-29', '30-34', '35-39', '40+']
+
+df["Age Group"] = pd.cut(df["Age"], bins, labels=group_names)
+df_id["Age Group"] = pd.cut(df["Age"], bins, labels=group_names)
+
+df_id = df_id.drop_duplicates('SN')
+df_id.head()
+
+
+
+agecount = df_id.groupby('Age Group')['SN'].count()
+agecount
+
+
+
+agetotal = df.groupby('Age Group')['Item ID'].count()
+agetotal
+
+ageavg = df.groupby('Age Group')['Price'].mean()
+
+ageavg
+
+agespent = df.groupby('Age Group')['Price'].sum()
+agespent
+
+
+
+
+
+agespentavg = agespent/agecount
+
+agespentavg
+
+agesumm = pd.DataFrame({'Purchase Count': agetotal, 'Avg Purchase Price': ageavg, 'Total Purchase Values': agespent, 'Average Per Person': agespentavg})
+
+agesumm
+
+sncount = df.groupby("SN").count()["Price"]
+snavg = df.groupby("SN").mean()["Price"]
+sntotal = df.groupby("SN").sum()["Price"]
+
+snsumm = pd.DataFrame({'Count':sncount, 'Average': snavg, 'Total': sntotal})
+
+snsumm.head()
+
+topsn = snsumm.sort_values("Total", ascending=False).head()
+
+topsn
+
+
+
+itemcount = df.groupby(["Item ID", "Item Name"]).count()["Price"]
+itemprice = df.groupby(["Item ID", "Item Name"]).mean()['Price']
+itemtotal = df.groupby(["Item ID", "Item Name"]).sum()["Price"]
+
+item_df = pd.DataFrame({'Number of Purchases': itemcount, 'Item Price': itemprice, 'Total Sales': itemtotal})
+
+item_df_purchases = item_df.sort_values("Number of Purchases", ascending=False).head()
+
+item_df.head()
+
+item_df_total = item_df.sort_values("Total Sales", ascending=False)
+
+item_df_total.head()
